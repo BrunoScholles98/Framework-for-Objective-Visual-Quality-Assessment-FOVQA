@@ -6,15 +6,15 @@ import metrikz
 import cv2
 import matplotlib.image as mpimg
 import os
-from utils import toolsGPDS
+from utils import tools
 
 def measureSSIM(videoRef, videoDist, formato, refpath, distpath):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
-    print('Metrica: SSIM')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: SSIM')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
     ref = skvideo.io.vread(reference, as_grey=True)
     dis = skvideo.io.vread(dist, as_grey=True)    
@@ -32,9 +32,9 @@ def measureMSSSIM(videoRef, videoDist, formato, refpath, distpath):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
-    print('Metrica: MSSSIM')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: MSSSIM')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
     ref = skvideo.io.vread(reference, as_grey=True)
     dis = skvideo.io.vread(dist, as_grey=True)    
@@ -52,9 +52,9 @@ def measureMSE(videoRef, videoDist, formato, refpath, distpath):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
-    print('Metrica: MSE')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: MSE')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
     ref = skvideo.io.vread(reference, as_grey=True)
     dis = skvideo.io.vread(dist, as_grey=True)    
@@ -72,9 +72,9 @@ def measurePSNR(videoRef, videoDist, formato, refpath, distpath):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
-    print('Metrica: PSNR')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: PSNR')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
     ref = skvideo.io.vread(reference, as_grey=True)
     dis = skvideo.io.vread(dist, as_grey=True)    
@@ -89,8 +89,8 @@ def measurePSNR(videoRef, videoDist, formato, refpath, distpath):
 #------------------------------------------------------------------------------------------------
 
 def measureNIQE(videoDist, formato, distpath):   
-    print('Metrica: NIQE')
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: NIQE')
+    print(f"{'Distortion: '}{videoDist}")
 
     dist = f"{distpath}{videoDist}{'.'}{formato}"
     dis = skvideo.io.vread(dist, as_grey=True)    
@@ -105,18 +105,18 @@ def measureNIQE(videoDist, formato, distpath):
 #------------------------------------------------------------------------------------------------
 
 def measureVMAF(videoRef, videoDist, formato, refpath, distpath):
-    comando1 = f"{'ffmpeg -i '}{distpath}"
+    command1 = f"{'ffmpeg -i '}{distpath}"
     distVideo = videoDist
-    comando2 = f"{' -i '}{refpath}"
+    command2 = f"{' -i '}{refpath}"
     refVideo = videoRef
-    comando3 = ' -lavfi libvmaf="model_path=/home/brunoscholles/Framework/AudioVisualMeter/models/vmaf_v0.6.1.json" -f null -'
-    comando = f"{comando1}{distVideo}{'.'}{formato}{comando2}{refVideo}{'.'}{formato}{comando3}"
+    command3 = ' -lavfi libvmaf="model_path=/home/brunoscholles/Framework/AudioVisualMeter/models/vmaf_v0.6.1.json" -f null -'
+    command = f"{command1}{distVideo}{'.'}{formato}{command2}{refVideo}{'.'}{formato}{command3}"
 
-    print('Metrica: VMAF')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: VMAF')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
-    output = sp.getoutput(comando)
+    output = sp.getoutput(command)
     print(output)
     splitter = 'VMAF score: '
     score = output.split(splitter)[1]
@@ -129,11 +129,11 @@ def measureVMAF(videoRef, videoDist, formato, refpath, distpath):
 
 def measureRMSE(videoRef, videoDist, formato, refpath, distpath):
 
-    print('Metrica: RMSE')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: RMSE')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
-    resultadoMetrica = []
+    metricResults = []
     path = './frames'                                                            
 
     nomeRef = videoRef
@@ -161,15 +161,15 @@ def measureRMSE(videoRef, videoDist, formato, refpath, distpath):
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        valor = metrikz.rmse(refFrameMeasure,distFrameMeasure) 
-        resultadoMetrica.append(valor)    
+        value = metrikz.rmse(refFrameMeasure,distFrameMeasure) 
+        metricResults.append(value)    
         countRef += 1
         countDist += 1
         i += 1
 
-    toolsGPDS.cleanFrameFolder()
+    tools.cleanFrameFolder()
 
-    score = np.mean(resultadoMetrica)
+    score = np.mean(metricResults)
     print(f"{'RMSE Score: '}{score}")
     print('\n\n')
     
@@ -179,11 +179,11 @@ def measureRMSE(videoRef, videoDist, formato, refpath, distpath):
 
 def measureSNR(videoRef, videoDist, formato, refpath, distpath):
 
-    print('Metrica: SNR')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: SNR')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
-    resultadoMetrica = []
+    metricResults = []
     path = './frames'                                                            
 
     nomeRef = videoRef
@@ -211,15 +211,15 @@ def measureSNR(videoRef, videoDist, formato, refpath, distpath):
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        valor = metrikz.snr(refFrameMeasure,distFrameMeasure) #métrica a ser utilizada, aqui
-        resultadoMetrica.append(valor)    
+        value = metrikz.snr(refFrameMeasure,distFrameMeasure) 
+        metricResults.append(value)    
         countRef += 1
         countDist += 1
         i += 1
 
-    toolsGPDS.cleanFrameFolder()
+    tools.cleanFrameFolder()
 
-    score = np.mean(resultadoMetrica)
+    score = np.mean(metricResults)
     print(f"{'SNR Score: '}{score}")
     print('\n\n')
     
@@ -229,11 +229,11 @@ def measureSNR(videoRef, videoDist, formato, refpath, distpath):
 
 def measureWSNR(videoRef, videoDist, formato, refpath, distpath):
 
-    print('Metrica: WSNR')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: WSNR')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
-    resultadoMetrica = []
+    metricResults = []
     path = './frames'                                                            
 
     nomeRef = videoRef
@@ -261,15 +261,15 @@ def measureWSNR(videoRef, videoDist, formato, refpath, distpath):
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        valor = metrikz.wsnr(refFrameMeasure,distFrameMeasure) #métrica a ser utilizada, aqui
-        resultadoMetrica.append(valor)    
+        value = metrikz.wsnr(refFrameMeasure,distFrameMeasure) 
+        metricResults.append(value)    
         countRef += 1
         countDist += 1
         i += 1
 
-    toolsGPDS.cleanFrameFolder()
+    tools.cleanFrameFolder()
 
-    score = np.mean(resultadoMetrica)
+    score = np.mean(metricResults)
     print(f"{'WSNR Score: '}{score}")
     print('\n\n')
     
@@ -279,11 +279,11 @@ def measureWSNR(videoRef, videoDist, formato, refpath, distpath):
 
 def measureUQI(videoRef, videoDist, formato, refpath, distpath):
 
-    print('Metrica: UQI')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: UQI')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
-    resultadoMetrica = []
+    metricResults = []
     path = './frames'                                                            
 
     nomeRef = videoRef
@@ -312,15 +312,15 @@ def measureUQI(videoRef, videoDist, formato, refpath, distpath):
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        valor = metrikz.uqi(refFrameMeasure,distFrameMeasure) #métrica a ser utilizada, aqui
-        resultadoMetrica.append(valor)    
+        value = metrikz.uqi(refFrameMeasure,distFrameMeasure) 
+        metricResults.append(value)    
         countRef += 1
         countDist += 1
         i += 1
 
-    toolsGPDS.cleanFrameFolder()
+    tools.cleanFrameFolder()
 
-    score = np.mean(resultadoMetrica)
+    score = np.mean(metricResults)
     print(f"{'UQI Score: '}{score}")
     print('\n\n')
     
@@ -330,11 +330,11 @@ def measureUQI(videoRef, videoDist, formato, refpath, distpath):
 
 def measurePBVIF(videoRef, videoDist, formato, refpath, distpath):
 
-    print('Metrica: PBVIF')
-    print(f"{'Referencia: '}{videoRef}")
-    print(f"{'Distorcao: '}{videoDist}")
+    print('Metric: PBVIF')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
     
-    resultadoMetrica = []
+    metricResults = []
     path = './frames'                                                            
 
     nomeRef = videoRef
@@ -362,15 +362,15 @@ def measurePBVIF(videoRef, videoDist, formato, refpath, distpath):
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        valor = metrikz.pbvif(refFrameMeasure,distFrameMeasure) #métrica a ser utilizada, aqui
-        resultadoMetrica.append(valor)    
+        value = metrikz.pbvif(refFrameMeasure,distFrameMeasure) 
+        metricResults.append(value)    
         countRef += 1
         countDist += 1
         i += 1
 
-    toolsGPDS.cleanFrameFolder()
+    tools.cleanFrameFolder()
 
-    score = np.mean(resultadoMetrica)
+    score = np.mean(metricResults)
     print(f"{'PBVIF Score: '}{score}")
     print('\n\n')
     

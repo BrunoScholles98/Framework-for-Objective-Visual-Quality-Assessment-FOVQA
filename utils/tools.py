@@ -2,43 +2,46 @@ import os, shutil
 import subprocess as sp
 import json
 
+# create the json file
 def setup_starting_file():
-    data = { "Nome do dataset" : "NaN", "Formato dos videos" : "NaN", "Metricas" : ["NaN"], "Endereco da referencia" : "NaN", "Endereco do destino" : "NaN"}
-    json_file = open("json_file.json", 'w', encoding='utf-8')
+    data = { "Dataset name" : "NaN", "Videos file format" : "NaN", "Metrics" : ["NaN"], "Path to reference foulder" : "NaN", "Path to distorted folder" : "NaN"}
+    json_file = open("parameters.json", 'w', encoding='utf-8')
 
     json_data = json.dumps(data)
     json_file.write(json_data)
     json_file.close()
 
+# get content from json file
 def read_json():
-    json_file = open("json_file.json", encoding='utf-8')
+    json_file = open("parameters.json", encoding='utf-8')
     json_data = json.loads(json_file.read())
     json_file.close()
     return json_data
 
+# change the json file content
 def edit_json():
-    json_file = open("json_file.json", "w", encoding='utf-8')
+    json_file = open("parameters.json", "w", encoding='utf-8')
 
     data = dict()
-    data["Nome do dataset"] = input("Escreva o nome do dataset:\n")
-    data["Formato dos videos"] = input("Escreva o formato dos videos:\n")
-    data["Metricas"] = input("Escreva as métricas a serem utilizadas separadas por vírgula:\n").split(",")
-    data["Endereco da referencia"] = input("Escreva o endereço (path) do vídeo de referência. Caso não haja, escreva NaN:\n")
-    data["Endereco do destino"] = input("Escreva o endereço (path) dos vídeos a serem avaliados.\n")
-
-    # Mais tarde, fazer função de validação para garantir que as variáveis foram inicializadas corretamente.
+    data["Dataset name"] = input("Dataset name:\n")
+    data["Videos file format"] = input("Videos file format:\n")
+    data["Metrics"] = input("Metrics to use (separate them using a comma):\n").split(",")
+    data["Path to reference foulder"] = input("Path to reference foulder. If there isn't one, type NaN:\n")
+    data["Path to distorted folder"] = input("Path to distorted foulder:\n")
 
     json_data = json.dumps(data)
     json_file.write(json_data)
     json_file.close()
 
+# tests if the necessary json file exists
 def is_json():
     try:
-        open("json_file.json", encoding='utf-8').close()
+        open("parameters.json", encoding='utf-8').close()
         return True
     except:
         return False
 
+# open the json file
 def initialize(edit = False):
 
     if(edit == False):
@@ -47,11 +50,11 @@ def initialize(edit = False):
         answer = "NaN"
 
     if is_json():
-        print("\nO arquivo existente segue o seguinte formato:")
+        print("\nThe existing file has the following format:")
         print(read_json())
 
         while (answer != "Y" and answer != "N"):
-            answer = input("\nDeseja continuar com ele? (Y/N)\n")
+            answer = input("\nProceed with it? (Y/N)\n")
 
         if answer == "N":
             setup_starting_file()
@@ -59,7 +62,7 @@ def initialize(edit = False):
 
     else:
         if(edit == False):
-            print("\nNão há arquivo json existente, será necessário criar um.")
+            print("\nThere is no existing json file, let's create one.")
 
         setup_starting_file()
         edit_json()
