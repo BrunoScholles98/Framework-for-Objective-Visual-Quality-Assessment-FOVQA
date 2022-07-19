@@ -33,7 +33,7 @@ def edit_json():
     data["Videos file format"] = vid_format
 
     metrics = input("Metrics to use (separate them using a comma):\n").split(",")
-    for m in len(metrics):
+    for m in range(len(metrics)):
         metrics[m] = metrics[m].strip(' ')                                             # remove blank spaces
         metrics[m] = metrics[m].lower
     data["Metrics"] = metrics
