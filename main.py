@@ -67,7 +67,7 @@ def main():
         # nd é a nossa sigla para "no dimensions", as dimensões só são realmente necessárias para vídeos no formato .yuv, outros formatos não precisam das dimensões
         
         if formato == 'yuv':
-            if 'height' not in df.keys() or 'weight' not in df.keys():
+            if 'height' not in df.keys() or 'width' not in df.keys():
                 print("Erro no csv, colunas de dimensões faltando...")
                 return
             else:
