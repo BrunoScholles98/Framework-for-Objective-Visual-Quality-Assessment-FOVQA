@@ -43,7 +43,6 @@ def main():
     
     if not error:
             
-        fileName = f"{fileName}{'.csv'}"
         df = pd.read_csv(fileName, sep = ';')
         
         tools.cleanFrameFolder()

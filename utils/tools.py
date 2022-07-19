@@ -4,7 +4,7 @@ import json
 
 # create the json file
 def setup_starting_file():
-    data = { "Dataset name" : "NaN", "Videos file format" : "NaN", "Metrics" : ["NaN"], "Path to reference foulder" : "NaN", "Path to distorted folder" : "NaN"}
+    data = { "Dataset Path" : "NaN", "Videos file format" : "NaN", "Metrics" : ["NaN"], "Path to reference foulder" : "NaN", "Path to distorted folder" : "NaN"}
     json_file = open("parameters.json", 'w', encoding='utf-8')
 
     json_data = json.dumps(data)
@@ -24,11 +24,7 @@ def edit_json():
 
     data = dict()
 
-    dataset_name = input("Dataset name:\n")
-    if dataset_name.find('.csv') != -1:
-        dataset_name = dataset_name[:dataset_name.find('.csv')]                        # excludes the '.csv' part if present
-    data["Dataset name"] = dataset_name
-
+    data["Dataset Path"] = input("Dataset Path:\n")
 
     vid_format = input("Videos file format:\n")
     if vid_format[0] == '.':
