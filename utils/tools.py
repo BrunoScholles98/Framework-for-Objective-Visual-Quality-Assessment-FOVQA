@@ -23,9 +23,25 @@ def edit_json():
     json_file = open("parameters.json", "w", encoding='utf-8')
 
     data = dict()
-    data["Dataset name"] = input("Dataset name:\n")
-    data["Videos file format"] = input("Videos file format:\n")
-    data["Metrics"] = input("Metrics to use (separate them using a comma):\n").split(",")
+
+    dataset_name = input("Dataset name:\n")
+    if dataset_name.find('.csv') != -1:
+        dataset_name = dataset_name[:dataset_name.find('.csv')]                        # excludes the '.csv' part if present
+    data["Dataset name"] = dataset_name
+
+
+    vid_format = input("Videos file format:\n")
+    if vid_format[0] == '.':
+        vid_format = vid_format[1:]                                                    # excludes the '.' if present
+    vid_format = vid_format.lower()
+    data["Videos file format"] = vid_format
+
+    metrics = input("Metrics to use (separate them using a comma):\n").split(",")
+    for m in len(metrics):
+        metrics[m] = metrics[m].strip(' ')                                             # remove blank spaces
+        metrics[m] = metrics[m].lower
+    data["Metrics"] = metrics
+
     data["Path to reference foulder"] = input("Path to reference foulder. If there isn't one, type NaN:\n")
     data["Path to distorted folder"] = input("Path to distorted foulder:\n")
 
