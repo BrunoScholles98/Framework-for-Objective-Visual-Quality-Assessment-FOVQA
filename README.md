@@ -49,7 +49,7 @@ For the Framework to work correctly, we must follow a few rules. The first is th
 The second rule is that the Framework needs to read the name of all the videos, among other characteristics. Therefore, **you must create a CSV table from the Dataset containing**:
 
 - The name of all reference videos (required).
-- The name of all the warping videos (required).
+- The name of all the distorted videos (required).
 - Mos of the videos (optional).
 - Video HRC.
 - Type of degradation of the video (optional).
