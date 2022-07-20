@@ -111,7 +111,7 @@ It is worth adding that in case there are any problems generating the json file,
 
 Optionally, if you want to generate the statistics like the example below, just reference the CSV path to the **statistics.py** file inside the **statistics** folder and run the script. In the future, we plan to implement a script that generates the results of these statistics in a table as well.
 
-![](https://i.postimg.cc/KzF9kVhN/msssim.png)![](https://i.postimg.cc/sXvJhR05/vmaf.png)
+![](https://i.postimg.cc/qRP266Kd/vmaf.png)![](https://i.postimg.cc/QN7QGSLN/ssim.png)
 
 <a name="contact"></a>
 ## Contact
