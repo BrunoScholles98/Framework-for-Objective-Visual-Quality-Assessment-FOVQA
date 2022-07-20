@@ -109,7 +109,7 @@ def measureVMAF(videoRef, videoDist, formato, refpath, distpath):
     distVideo = videoDist
     command2 = f"{' -i '}{refpath}"
     refVideo = videoRef
-    command3 = ' -lavfi libvmaf="model_path=/home/brunoscholles/Framework/AudioVisualMeter/models/vmaf_v0.6.1.json" -f null -'
+    command3 = ' -lavfi libvmaf="model_path=/home/linuxbrew/Framework-for-Objective-Visual-Quality-Assessment-FOVQA/models/vmaf_v0.6.1.json" -f null -'
     command = f"{command1}{distVideo}{'.'}{formato}{command2}{refVideo}{'.'}{formato}{command3}"
 
     print('Metric: VMAF')
