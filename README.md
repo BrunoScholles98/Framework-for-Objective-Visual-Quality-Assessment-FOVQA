@@ -37,6 +37,9 @@ To run the framework, you must first have the following tools installed:
 - [FFmpeg toolkit](https://ffmpeg.org/)
 - [VMAF](https://github.com/Netflix/vmaf)
 
+#### Recommended Tools
+- [screen](https://linuxize.com/post/how-to-use-linux-screen/)
+
 <a name="inst"></a>
 # Instructions
 
