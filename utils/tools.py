@@ -4,7 +4,7 @@ import json
 
 # create the json file
 def setup_starting_file():
-    data = { "Dataset Path" : "NaN", "Videos file format" : "NaN", "Metrics" : ["NaN"], "Path to reference foulder" : "NaN", "Path to distorted folder" : "NaN"}
+    data = { "Dataset Path" : "NaN", "Videos file format" : "NaN", "Metrics" : ["NaN"], "Path to reference folder" : "NaN", "Path to distorted folder" : "NaN"}
     json_file = open("parameters.json", 'w', encoding='utf-8')
 
     json_data = json.dumps(data)
@@ -24,7 +24,7 @@ def edit_json():
 
     data = dict()
 
-    data["Dataset Path"] = input("Dataset Path:\n")
+    data["Dataset Path"] = input("CSV Dataset Path:\n")
 
     vid_format = input("Videos file format:\n")
     if vid_format[0] == '.':
@@ -38,8 +38,8 @@ def edit_json():
         metrics[m] = metrics[m].lower()
     data["Metrics"] = metrics
 
-    data["Path to reference foulder"] = input("Path to reference foulder. If there isn't one, type NaN:\n")
-    data["Path to distorted folder"] = input("Path to distorted foulder:\n")
+    data["Path to reference folder"] = input("Path to reference folder. If there isn't one, type NaN:\n")
+    data["Path to distorted folder"] = input("Path to distorted folder:\n")
 
     print(data)
 

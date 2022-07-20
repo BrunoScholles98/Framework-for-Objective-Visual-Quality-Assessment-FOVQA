@@ -17,9 +17,9 @@ def main():
 
     error = False 
         
-    fileName = json_data["Dataset name"]
+    fileName = json_data["Dataset Path"]
     vid_format = json_data["Videos file format"]
-    refpath = json_data["Path to reference foulder"]
+    refpath = json_data["Path to reference folder"]
     distpath = json_data["Path to distorted folder"]
     metrics_list = json_data["Metrics"]
     
