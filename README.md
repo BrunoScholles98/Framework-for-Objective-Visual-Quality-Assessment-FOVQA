@@ -21,9 +21,12 @@ Documentation still being written...
 <a name="req"></a>
 ## Requirements
 
+This section will show you the requirements for the Framework script to work correctly.
+
+### Installation
 To run the framework, you must first have the following tools installed:
 
-#### Python Libraries
+##### Python Libraries
 
 - [NumPy](https://numpy.org/)
 - [Matplotlib](https://matplotlib.org/stable/users/installing/index.html)
@@ -32,17 +35,77 @@ To run the framework, you must first have the following tools installed:
 - [scikit-video](http://www.scikit-video.org/stable/)
 - [PyMetrikz](https://gitlab.com/gpds-unb/pymetrikz)
 
-#### Other Applications
+##### Other Applications
 - [FFmpeg toolkit](https://ffmpeg.org/)
 - [VMAF](https://github.com/Netflix/vmaf)
 
-#### Recommended Tools
+##### Recommended Tools
 - [screen](https://linuxize.com/post/how-to-use-linux-screen/)
+
+### General Organization
+
+For the Framework to work correctly, we must follow a few rules. The first is the video path: there is no problem if the distortion and reference videos are in the same folders or in separate folders. However, all reference videos together in the same folder, just as the distortion videos must be in the same folder as well.
+
+The second rule is that the Framework needs to read the name of all the videos, among other characteristics. Therefore, **you must create a CSV table from the Dataset containing**:
+
+- The name of all reference videos (required).
+- The name of all the warping videos (required).
+- Mos of the videos (optional).
+- Video HRC.
+- Type of degradation of the video (optional).
+- Dimension: height of the video (required).
+- Dimensions: video width (required).
+
+Thus, we have the following example table in **which the columns must follow exactly the names defined below**:
+
+|refFile|testFile|Mos|HRC|videoDegradationType|height|width|
+| :------------: | :------------: | :------------: | :------------: | :------------: | :------------: | :------------: |
+|bus|bus_dirac_1|0.9141|TC01|dirac|1088|1920|
+|bus|bus_dirac_2|1.761|TC02|dirac|1088|1920|
+|bus|bus_dirac_3|2.545|TC03|dirac|1088|1920|
+|bus|bus_h264_1|-0.060209|TC04|h264|1088|1920|
+|bus|bus_h264_2|0.29378|TC05|h264|1088|1920|
+|bus|bus_h264_3|0.42517|TC06|h264|1088|1920|
+|bus|bus_mpeg2_1|0.037114|TC08|mpeg2|1088|1920|
+|bus|bus_mpeg2_2|0.61435|TC09|mpeg2|1088|1920|
+|bus|bus_mpeg2_3|1.5951|TC10|mpeg2|1088|1920|
 
 <a name="inst"></a>
 ## Instructions
 
-Documentation still being written...
+After installing all the requirements, we can run our Framework. First, we recommend that you use the `screen` command, as shown above, so that the framework runs in the background. An example of the command we can use is:
+
+`$ screen -S Framework`
+
+So, inside the folder where the Framework is, we can run the algorithm for the first time, using the following command:
+
+`$ python3 framework.py -edit`
+
+Then the framework will make some requests, such as:
+- Path from the Dataset CSV.
+- Format of the video files to be evaluated (e.g.: yuv, avi, mp4, mkv, etc).
+- The metrics to be performed. If you want to run them all, you must type `all`.
+- The path to the folder containing the reference videos.
+- The path to the folder containing the distorted videos.
+
+Thus, the Framework should generate a json file, like the example below:
+
+```json
+{
+    "Dataset Path":"/home/linuxbrew/Framework-for-Objective-Visual-Quality-Assessment-FOVQA/results/IVPL_Dataset_Complete.csv",
+    "Videos file format":"yuv",
+    "Metrics":["ssim","vmaf","snr","uqi"],
+    "Path to reference folder":"/mnt/nas/Databases/VideoQuality/IVPL_VideoDataset/reference_videos/",
+    "Path to distorted folder":"/mnt/nas/Databases/VideoQuality/IVPL_VideoDataset/video_sequences/"
+}
+```
+Finally, just wait for the Framework to finish running, and it will save the results in the CSV of the Dataset. If any problems occur while the Framework is running, or you want to run the Framework on the same dataset it was run on last time, just execute:
+
+`$ python3 framework.py`
+
+For other datasets, path changes, etc., run the script using `-edit` again.
+
+It is worth adding that in case there are any problems generating the json file, we recommend that you delete the **parameters.json** file and run the script again. Any errors like this should be fixed soon.
 
 <a name="contact"></a>
 ## Contact
