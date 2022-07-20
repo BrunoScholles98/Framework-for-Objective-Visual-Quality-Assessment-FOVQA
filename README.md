@@ -70,6 +70,8 @@ Thus, we have the following example table in **which the columns must follow exa
 |bus|bus_mpeg2_2|0.61435|TC09|mpeg2|1088|1920|
 |bus|bus_mpeg2_3|1.5951|TC10|mpeg2|1088|1920|
 
+Finally, if you want to generate the statistics of the metrics run in your Dataset, **you must have the columns describing the Mos and the type of degradation of the videos**.
+
 <a name="inst"></a>
 ## Instructions
 
@@ -106,6 +108,10 @@ Finally, just wait for the Framework to finish running, and it will save the res
 For other datasets, path changes, etc., run the script using `-edit` again.
 
 It is worth adding that in case there are any problems generating the json file, we recommend that you delete the **parameters.json** file and run the script again. Any errors like this should be fixed soon.
+
+Optionally, if you want to generate the statistics like the example below, just reference the CSV path to the **statistics.py** file inside the **statistics** folder and run the script. In the future, we plan to implement a script that generates the results of these statistics in a table as well.
+
+![](https://i.postimg.cc/KzF9kVhN/msssim.png)![](https://i.postimg.cc/sXvJhR05/vmaf.png)
 
 <a name="contact"></a>
 ## Contact
