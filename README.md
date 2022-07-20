@@ -12,7 +12,7 @@
 <a name="desc"></a>
 # Description
 
-This is a Quality Assessment Framework that provides researchers with the flexibility, consistency, and scalability they need to evaluate and compare quality metrics, promoting the reproducibility of results. It currently has 11 visual quality metrics that use 3 different libraries: Scikit-video, FFmpeg toolkit, and PyMetrikz
+This is a Quality Assessment Framework that provides researchers with the flexibility, consistency, and scalability they need to evaluate and compare quality metrics, promoting the reproducibility of results. It currently has 11 visual quality metrics that use 3 different libraries: Scikit-video, FFmpeg toolkit, and PyMetrikz.
 
 <a name="lic"></a>
 # License
@@ -60,4 +60,4 @@ Documentation still being written…
 <a name="thanks"></a>
 # Thanks
 
-Special thanks to [Mylene C. Q. Farias](http://www.ene.unb.br/mylene/), [Helard B. Martinez](https://people.ucd.ie/helard.becerra) and [André Henrique M. da Costa](https://www.escavador.com/sobre/277751988/andre-henrique-macedo-da-costa).
+Special thanks to [Mylene C. Q. Farias](http://www.ene.unb.br/mylene/), [Helard B. Martinez](https://people.ucd.ie/helard.becerra), and [André Henrique M. da Costa](https://www.escavador.com/sobre/277751988/andre-henrique-macedo-da-costa).
