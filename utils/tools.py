@@ -35,7 +35,7 @@ def edit_json():
     metrics = input("Metrics to use (separate them using a comma):\n").split(",")
     for m in range(len(metrics)):
         metrics[m] = metrics[m].strip(' ')                                             # remove blank spaces
-        metrics[m] = metrics[m].lower
+        metrics[m] = metrics[m].lower()
     data["Metrics"] = metrics
 
     data["Path to reference foulder"] = input("Path to reference foulder. If there isn't one, type NaN:\n")
