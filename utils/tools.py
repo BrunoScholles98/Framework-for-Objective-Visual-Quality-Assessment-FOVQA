@@ -24,6 +24,7 @@ def edit_json():
 
     data = dict()
 
+    data["VMAF Model Path"] = input("VMAF Model Path:\n")
     data["Dataset Path"] = input("CSV Dataset Path:\n")
 
     vid_format = input("Videos file format:\n")
@@ -40,8 +41,6 @@ def edit_json():
 
     data["Path to reference folder"] = input("Path to reference folder. If there isn't one, type NaN:\n")
     data["Path to distorted folder"] = input("Path to distorted folder:\n")
-
-    print(data)
 
     json_data = json.dumps(data)
     json_file.write(json_data)

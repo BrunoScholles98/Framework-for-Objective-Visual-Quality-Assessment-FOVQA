@@ -17,12 +17,13 @@ def main():
 
     error = False 
         
+    vmaf_model = json_data["VMAF Model Path"]
     fileName = json_data["Dataset Path"]
     vid_format = json_data["Videos file format"]
     refpath = json_data["Path to reference folder"]
     distpath = json_data["Path to distorted folder"]
     metrics_list = json_data["Metrics"]
-    
+        
     print(f"{'Dataset: '}{fileName}")
     print(f"{'Videos file format: '}{vid_format}")
     print(f"{'Reference Path: '}{refpath}")

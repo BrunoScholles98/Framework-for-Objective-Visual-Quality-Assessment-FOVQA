@@ -8,7 +8,7 @@ import matplotlib.image as mpimg
 import os
 from utils import tools
 
-def measureSSIM(videoRef, videoDist, formato, refpath, distpath):
+def measureSSIM(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
@@ -28,7 +28,7 @@ def measureSSIM(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureMSSSIM(videoRef, videoDist, formato, refpath, distpath):
+def measureMSSSIM(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
@@ -48,7 +48,7 @@ def measureMSSSIM(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureMSE(videoRef, videoDist, formato, refpath, distpath):
+def measureMSE(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
@@ -68,7 +68,7 @@ def measureMSE(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measurePSNR(videoRef, videoDist, formato, refpath, distpath):
+def measurePSNR(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
@@ -88,7 +88,7 @@ def measurePSNR(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureNIQE(videoDist, formato, distpath):   
+def measureNIQE(videoDist, formato, distpath, vmaf_model):   
     print('Metric: NIQE')
     print(f"{'Distortion: '}{videoDist}")
 
@@ -104,12 +104,12 @@ def measureNIQE(videoDist, formato, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureVMAF(videoRef, videoDist, formato, refpath, distpath):
+def measureVMAF(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     command1 = f"{'ffmpeg -i '}{distpath}"
     distVideo = videoDist
     command2 = f"{' -i '}{refpath}"
     refVideo = videoRef
-    command3 = ' -lavfi libvmaf="model_path=/home/linuxbrew/Framework-for-Objective-Visual-Quality-Assessment-FOVQA/models/vmaf_v0.6.1.json" -f null -'
+    command3 = ' -lavfi libvmaf="model_path=' + vmaf_model + '" -f null -'
     command = f"{command1}{distVideo}{'.'}{formato}{command2}{refVideo}{'.'}{formato}{command3}"
 
     print('Metric: VMAF')
@@ -127,7 +127,7 @@ def measureVMAF(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureRMSE(videoRef, videoDist, formato, refpath, distpath):
+def measureRMSE(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
 
     print('Metric: RMSE')
     print(f"{'Reference: '}{videoRef}")
@@ -177,7 +177,7 @@ def measureRMSE(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureSNR(videoRef, videoDist, formato, refpath, distpath):
+def measureSNR(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
 
     print('Metric: SNR')
     print(f"{'Reference: '}{videoRef}")
@@ -227,7 +227,7 @@ def measureSNR(videoRef, videoDist, formato, refpath, distpath):
     
 #------------------------------------------------------------------------------------------------
 
-def measureWSNR(videoRef, videoDist, formato, refpath, distpath):
+def measureWSNR(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
 
     print('Metric: WSNR')
     print(f"{'Reference: '}{videoRef}")
@@ -277,7 +277,7 @@ def measureWSNR(videoRef, videoDist, formato, refpath, distpath):
 
 #------------------------------------------------------------------------------------------------
 
-def measureUQI(videoRef, videoDist, formato, refpath, distpath):
+def measureUQI(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
 
     print('Metric: UQI')
     print(f"{'Reference: '}{videoRef}")
@@ -328,7 +328,7 @@ def measureUQI(videoRef, videoDist, formato, refpath, distpath):
     
 #------------------------------------------------------------------------------------------------
 
-def measurePBVIF(videoRef, videoDist, formato, refpath, distpath):
+def measurePBVIF(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
 
     print('Metric: PBVIF')
     print(f"{'Reference: '}{videoRef}")
