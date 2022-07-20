@@ -41,6 +41,8 @@ def edit_json():
     data["Path to reference foulder"] = input("Path to reference foulder. If there isn't one, type NaN:\n")
     data["Path to distorted folder"] = input("Path to distorted foulder:\n")
 
+    print(data)
+
     json_data = json.dumps(data)
     json_file.write(json_data)
     json_file.close()
