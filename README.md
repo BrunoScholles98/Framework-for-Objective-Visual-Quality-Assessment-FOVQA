@@ -1,4 +1,6 @@
-# Contents
+# Framework for Objective Visual Quality Assessment - FOVQA
+
+## Contents
 
 1. [Description](#desc)
 2. [License](#lic)
@@ -8,14 +10,13 @@
 6. [References](#refs)
 7. [Thanks](#thanks)
 
-
 <a name="desc"></a>
-# Description
+## Description
 
 This is a Quality Assessment Framework that provides researchers with the flexibility, consistency, and scalability they need to evaluate and compare quality metrics, promoting the reproducibility of results. It currently has 11 visual quality metrics that use 3 different libraries: Scikit-video, FFmpeg toolkit, and PyMetrikz.
 
 <a name="lic"></a>
-# License
+## License
 
 Documentation still being written...
 
@@ -41,26 +42,26 @@ To run the framework, you must first have the following tools installed:
 - [screen](https://linuxize.com/post/how-to-use-linux-screen/)
 
 <a name="inst"></a>
-# Instructions
+## Instructions
 
 Documentation still being written...
 
 <a name="contact"></a>
-# Contact
+## Contact
 
 Please send all comments, questions, reports and suggestions (especially if you would like to contribute) to brunoscholles98@gmail.com or  caio.saigg@gmail.com
 
 <a name="contrib"></a>
-# Contributing
+## Contributing
 
 If you would like to contribute with new algorithms, increment of code performance, documentation or another kind of modifications, please contact us.
 
 <a name="refs"></a>
-# References
+## References
 
 Documentation still being written…
 
 <a name="thanks"></a>
-# Thanks
+## Thanks
 
 Special thanks to [Mylene C. Q. Farias](http://www.ene.unb.br/mylene/), [Helard B. Martinez](https://people.ucd.ie/helard.becerra), and [André Henrique M. da Costa](https://www.escavador.com/sobre/277751988/andre-henrique-macedo-da-costa).
