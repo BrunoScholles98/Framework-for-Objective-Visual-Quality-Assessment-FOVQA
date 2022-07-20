@@ -5,6 +5,7 @@ import metrics
 import metrics_nd
 import json
 from utils import tools
+import os
 
 def main():
 
@@ -17,7 +18,7 @@ def main():
 
     error = False 
         
-    vmaf_model = json_data["VMAF Model Path"]
+    vmaf_model = os.getcwd() + '/models/vmaf_v0.6.1.json'
     fileName = json_data["Dataset Path"]
     vid_format = json_data["Videos file format"]
     refpath = json_data["Path to reference folder"]

@@ -24,7 +24,6 @@ def edit_json():
 
     data = dict()
 
-    data["VMAF Model Path"] = input("VMAF Model Path:\n")
     data["Dataset Path"] = input("CSV Dataset Path:\n")
 
     vid_format = input("Videos file format:\n")
