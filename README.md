@@ -153,7 +153,7 @@ Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, "Image quality
 assessment: From error visibility to structural similarity" IEEE Transactions 
 on Image Processing, vol. 13, no. 4, pp.600-612, Apr. 2004
 
-#### Multi-scale SSIM Index (MSSIM)
+#### Multi-scale SSIM Index (MSSSIM)
 Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, "Image quality
 assessment: From error visibility to structural similarity" IEEE Transactions
 on Image Processing, vol. 13, no. 4, pp.600-612, Apr. 2004
