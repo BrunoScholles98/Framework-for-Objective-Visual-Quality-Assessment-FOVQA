@@ -166,8 +166,8 @@ Asia-Pacific, 2014, pp. 1–5.
 
 Z. Li, A. Aaron, I. Katsavounidis, A. Moorthy, and M. Manohara,
 “Toward a practical perceptual video quality metric,” 2016.
-[Online]. Available: https://medium.com/netflix-techblog/toward-a-
-practical-perceptualvideo-quality-metric-653f208b9652
+[Online]. Available: 
+https://medium.com/netflix-techblog/toward-a-practical-perceptualvideo-quality-metric-653f208b9652
 
 **Universal Image Quality Index (UQI)**  
 Zhou Wang and Alan C. Bovik, "A Universal Image Quality Index", IEEE Signal
