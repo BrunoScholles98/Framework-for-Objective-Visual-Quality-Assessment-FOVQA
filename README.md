@@ -4,7 +4,6 @@
 2. [License](#lic)
 3. [Requirements](#req)
 4. [Instructions](#inst)
-5. [Statistics](#stats)
 6. [Contact](#contact)
 7. [References](#refs)
 8. [Thanks](#thanks)
@@ -78,6 +77,8 @@ Finally, if you want to generate the statistics of the metrics run in your Datas
 <a name="inst"></a>
 ## Instructions
 
+#### Running the Framework
+
 After installing all the requirements, we can run our Framework. First, we recommend that you use the `screen` command, as shown above, so that the framework runs in the background. An example of the command we can use is:
 
 `$ screen -S Framework`
@@ -112,12 +113,8 @@ For other datasets, path changes, etc., run the script using `-edit` again.
 
 It is worth adding that in case there are any problems generating the json file, we recommend that you delete the **parameters.json** file and run the script again. Any errors like this should be fixed soon.
 
-Optionally, if you want to generate the statistics like the example below, just reference the CSV path to the **statistics.py** file inside the **statistics** folder and run the script. In the future, we plan to implement a script that generates the results of these statistics in a table as well.
-
-![](https://i.postimg.cc/qRP266Kd/vmaf.png)![](https://i.postimg.cc/QN7QGSLN/ssim.png)
-
 <a name="stats"></a>
-## Statistics
+#### Statistics
 
 In the "statistics" folder, you can use the **statistics.py** code to calculate the correlations of each metric used with the Mean Opinion Score (Mos). The calculations are done using:
 
