@@ -28,7 +28,7 @@ This section will show you the requirements for the Framework script to work cor
 ### Installation
 To run the framework, you must first have the following tools installed:
 
-##### Python Libraries
+##### Python Libraries (required)
 
 - [NumPy](https://numpy.org/)
 - [Matplotlib](https://matplotlib.org/stable/users/installing/index.html)
@@ -37,11 +37,11 @@ To run the framework, you must first have the following tools installed:
 - [scikit-video](http://www.scikit-video.org/stable/)
 - [PyMetrikz](https://gitlab.com/gpds-unb/pymetrikz)
 
-##### Other Applications
+##### Other Applications (required)
 - [FFmpeg toolkit](https://ffmpeg.org/)
 - [VMAF](https://github.com/Netflix/vmaf)
 
-##### Recommended Tools
+##### Recommended Tools (optional)
 - [screen](https://linuxize.com/post/how-to-use-linux-screen/)
 
 ### General Organization
