@@ -18,7 +18,7 @@ The framework is currently adapted to work with full-reference and no-reference 
 <a name="lic"></a>
 ## License
 
-Documentation still being written...
+Still to be defined...
 
 <a name="req"></a>
 ## Requirements
