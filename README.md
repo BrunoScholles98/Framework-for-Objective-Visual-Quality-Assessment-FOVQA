@@ -159,15 +159,15 @@ assessment: From error visibility to structural similarity" IEEE Transactions
 on Image Processing, vol. 13, no. 4, pp.600-612, Apr. 2004
 
 **Video Multi-Method Assessment Fusion (VMAF)**
-J. Y. Lin, T.-J. Liu, E. C.-H. Wu, and C.-C. J. Kuo, “A fusion-
-based video quality assessment (fvqa) index,” in Signal and Information
-Processing Association Annual Summit and Conference (APSIPA), 2014
-Asia-Pacific, 2014, pp. 1–5.
-
 Z. Li, A. Aaron, I. Katsavounidis, A. Moorthy, and M. Manohara,
 “Toward a practical perceptual video quality metric,” 2016.
 [Online]. Available: 
 https://medium.com/netflix-techblog/toward-a-practical-perceptualvideo-quality-metric-653f208b9652
+
+J. Y. Lin, T.-J. Liu, E. C.-H. Wu, and C.-C. J. Kuo, “A fusion-
+based video quality assessment (fvqa) index,” in Signal and Information
+Processing Association Annual Summit and Conference (APSIPA), 2014
+Asia-Pacific, 2014, pp. 1–5.
 
 **Universal Image Quality Index (UQI)**  
 Zhou Wang and Alan C. Bovik, "A Universal Image Quality Index", IEEE Signal
