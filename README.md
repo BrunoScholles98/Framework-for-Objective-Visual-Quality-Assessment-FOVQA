@@ -13,6 +13,8 @@
 
 This is a Quality Assessment Framework that provides researchers with the flexibility, consistency, and scalability they need to evaluate and compare quality metrics, promoting the reproducibility of results. It currently has 11 visual quality metrics that use 3 different libraries: Scikit-video, FFmpeg toolkit, and PyMetrikz.
 
+The framework is currently adapted to work with full-reference and no-reference metrics for measuring the quality of 2D videos. Its main functionality is to run all its 11 current metrics (or a set of them) in sequence automatically for a dataset of video. It can also be used to generate statistics of the results for metrics comparison purposes.
+
 <a name="lic"></a>
 ## License
 
@@ -112,6 +114,11 @@ It is worth adding that in case there are any problems generating the json file,
 Optionally, if you want to generate the statistics like the example below, just reference the CSV path to the **statistics.py** file inside the **statistics** folder and run the script. In the future, we plan to implement a script that generates the results of these statistics in a table as well.
 
 ![](https://i.postimg.cc/qRP266Kd/vmaf.png)![](https://i.postimg.cc/QN7QGSLN/ssim.png)
+
+<a name="stats"></a>
+## Statistics
+
+
 
 <a name="contact"></a>
 ## Contact
