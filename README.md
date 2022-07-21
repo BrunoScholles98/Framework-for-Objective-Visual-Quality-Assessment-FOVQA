@@ -4,9 +4,10 @@
 2. [License](#lic)
 3. [Requirements](#req)
 4. [Instructions](#inst)
-5. [Contact](#contact)
-6. [References](#refs)
-7. [Thanks](#thanks)
+5. [Statistics](#stats)
+6. [Contact](#contact)
+7. [References](#refs)
+8. [Thanks](#thanks)
 
 <a name="desc"></a>
 # Framework for Objective Visual Quality Assessment - FOVQA
@@ -118,6 +119,23 @@ Optionally, if you want to generate the statistics like the example below, just 
 <a name="stats"></a>
 ## Statistics
 
+In the "statistics" folder, you can use the **statistics.py** code to calculate the correlations of each metric used with the Mean Opinion Score (Mos). The calculations are done using:
+
+- Pearson Correlation.
+- Spearman Correlation
+- Kendall Correlation
+- RMSE
+
+At the end, in the "frameworkXMos" folder you will get a set of scatter plots like the one shown below, and in the "statistics" folder a CSV table will be generated with all the calculated values.
+
+![](https://i.postimg.cc/qRP266Kd/vmaf.png)
+
+||pearson|spearman|kendall|RMSE|
+| :------------: | :------------: | :------------: | :------------: | :------------: |
+|ssim|-0.5732|-0.6418|-0.4711|0.5487|
+|vmaf|-0.6077|-0.6108|-0.4619|0.5175|
+|snr|-0.3889|-0.3900|-0.2967|0.4137|
+|uqi|-0.1236|-0.2110|-0.1760|0.3880|
 
 
 <a name="contact"></a>
