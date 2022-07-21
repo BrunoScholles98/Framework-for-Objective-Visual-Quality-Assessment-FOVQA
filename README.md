@@ -13,7 +13,7 @@
 
 This is a Quality Assessment Framework that provides researchers with the flexibility, consistency, and scalability they need to evaluate and compare quality metrics, promoting the reproducibility of results. It currently has 11 visual quality metrics that use 3 different libraries: Scikit-video, FFmpeg toolkit, and PyMetrikz.
 
-The framework is currently adapted to work with full-reference and no-reference metrics for measuring the quality of 2D videos. Its main functionality is to run all its 11 current metrics (or a set of them) in sequence automatically for a dataset of video. Currently the framework has the following metrics: ssim, msssim, psnr, mse, vmaf, rmse, snr, wsnr, uqi, pbvif, and niqe. It can also be used to generate statistics of the results for metrics comparison purposes. 
+The framework is currently adapted to work with full-reference and no-reference metrics for measuring the quality of 2D videos. Its main functionality is to run all its 11 current metrics (or a set of them) in sequence automatically for a dataset of video. Currently the framework has the following metrics: `ssim, msssim, psnr, mse, vmaf, rmse, snr, wsnr, uqi, pbvif, and niqe`. It can also be used to generate statistics of the results for metrics comparison purposes. 
 
 <a name="lic"></a>
 ## License
