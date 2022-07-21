@@ -159,7 +159,6 @@ assessment: From error visibility to structural similarity" IEEE Transactions
 on Image Processing, vol. 13, no. 4, pp.600-612, Apr. 2004
 
 **Video Multi-Method Assessment Fusion (VMAF)**
-
 J. Y. Lin, T.-J. Liu, E. C.-H. Wu, and C.-C. J. Kuo, “A fusion-
 based video quality assessment (fvqa) index,” in Signal and Information
 Processing Association Annual Summit and Conference (APSIPA), 2014
