@@ -90,16 +90,17 @@ elif 'all' in metrics_list and len(metrics_list) == 1:
 if not error:
 
     df = pd.read_csv(fileName,sep=';')
-    distortions = df['videoDegradationType'].values.tolist()
-    distortions = list(set(distortions))
+    if 'videoDegradationType' in df.keys():
+        distortions = df['videoDegradationType'].values.tolist()
+        distortions = list(set(distortions))
 
-    mean_Mos = []
-    deviation_Mos = []
-    for dist in distortions:
-        separator = df.loc[(df['videoDegradationType'] == dist)]
-        values_Mos = separator['Mos'].values.tolist()
-        mean_Mos.append(statistics.mean(values_Mos))
-        deviation_Mos.append(statistics.stdev(values_Mos))
+        mean_Mos = []
+        deviation_Mos = []
+        for dist in distortions:
+            separator = df.loc[(df['videoDegradationType'] == dist)]
+            values_Mos = separator['Mos'].values.tolist()
+            mean_Mos.append(statistics.mean(values_Mos))
+            deviation_Mos.append(statistics.stdev(values_Mos))
 
     #print(deviation_Mos)
     values_Mos = df['Mos'].values.tolist()
@@ -107,4 +108,5 @@ if not error:
 
     for metric in metrics_list:
         perVideo(metric, values_Mos, Mos_normalized)
-        perDistortion(metric, mean_Mos, deviation_Mos, distortions)
+        if 'videoDegradationType' in df.keys():
+            perDistortion(metric, mean_Mos, deviation_Mos, distortions)
