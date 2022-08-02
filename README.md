@@ -118,7 +118,7 @@ It is worth adding that in case there are any problems generating the json file,
 <a name="stats"></a>
 #### Statistics
 
-In the "statistics" folder, you can use the **statistics.py** code to calculate the correlations of each metric used with the Mean Opinion Score (Mos). The calculations are done using:
+You can use the **statistics.py** code to calculate the correlations of each metric used with the Mean Opinion Score (Mos). The calculations are done using:
 
 - Pearson Correlation.
 - Spearman Correlation
