@@ -17,13 +17,17 @@ def normalize(vector):
         vector[i] = (vector[i] - minimum)/maximum
     return vector
 
-def perVideo(metric, values_Mos, Mos_normalized):
+def perVideo(metric, values_Mos, Mos_normalized, tabel_results):
     values_metric = df[metric].values.tolist()
     pearson, x = stats.pearsonr(values_Mos,values_metric)
     spearman, y = stats.spearmanr(values_Mos,values_metric)
     kendall, z = stats.kendalltau(values_Mos,values_metric)
     metric_normalized = normalize(df[metric].values)
     RMSE = rmse(np.array(Mos_normalized),np.array(metric_normalized))
+    tabel_results[metric].append(pearson)
+    tabel_results[metric].append(spearman)
+    tabel_results[metric].append(kendall)
+    tabel_results[metric].append(RMSE)
     fig, ax = plt.subplots()
     #ax.scatter(metric_normalizada, Mos_normalized, edgecolors=(0, 0, 0))
     ax.scatter(values_metric, values_Mos, edgecolors=(0, 0, 0))
@@ -36,8 +40,9 @@ def perVideo(metric, values_Mos, Mos_normalized):
     plt.title(title)
     statistics = f"{'pearson = {%.3f}'%pearson}{nl}{'spearman = {%.3f}'%spearman}{nl}{'kendall = {%.3f}'%kendall}{nl}{'rmse = {%.3f}'%RMSE}"
     ax.text(np.array(values_metric).min(), np.array(values_Mos).min(), statistics, color='black', bbox=dict(facecolor='none', edgecolor='black'))
-    backlash = '\\'
-    plt.savefig(f"{'frameworkXMos'}{backlash}{metric}{'.png'}")
+    slash = '/'
+    plt.savefig(f"{'statistics'}{slash}{'frameworkXMos'}{slash}{metric}{'.png'}")
+    return tabel_results
 
 def perDistortion(metric, mean_Mos, deviation_Mos, distortions):
     mean_metric = []
@@ -64,8 +69,8 @@ def perDistortion(metric, mean_Mos, deviation_Mos, distortions):
     for i in range(len(mean_metric)):
         ax.text(mean_metric[i] + 0.15*deviation_metric[i], mean_Mos[i] + 0.15*deviation_Mos[i], distortions[i], color='black', bbox=dict(facecolor='none', edgecolor='red'))
 
-    backlash = '\\'
-    plt.savefig(f"{'distortionsXMos'}{backlash}{metric}{'.png'}")
+    slash = '/'
+    plt.savefig(f"{'statistics'}{slash}{'distortionsXMos'}{slash}{metric}{'.png'}")
     
 
 json_data = tools.initialize()
@@ -106,7 +111,16 @@ if not error:
     values_Mos = df['Mos'].values.tolist()
     Mos_normalized = normalize(df['Mos'].values)
 
+    tabel_results = {'Correlation values': ['Pearson', 'Spearman', 'Kendall', 'RMSE']}
+
     for metric in metrics_list:
-        perVideo(metric, values_Mos, Mos_normalized)
+        tabel_results[metric] = []
+
+    for metric in metrics_list:
+        tabel_results = perVideo(metric, values_Mos, Mos_normalized, tabel_results)
         if 'videoDegradationType' in df.keys():
             perDistortion(metric, mean_Mos, deviation_Mos, distortions)
+
+
+    csv = pd.DataFrame(tabel_results)
+    csv.to_csv('statistics/correlation_results.csv', sep = ';', index = False)
