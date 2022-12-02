@@ -17,7 +17,7 @@ from keras.regularizers import l2, l1
 #from keras.utils import np_utils
 
 #import pandas as pd
-#import numpy as np
+import numpy as np
 
 
 
@@ -274,16 +274,16 @@ def trainAutoencoder_basic(X_train, X_test, nodes, **kwargs):
 
 def nave_encoder_nd(video_name,model):
     # load video and extract features
-    features = extract_brisque_features_nd(video_name,0)
-    vec_feats = frame_pooling(features)
+    features = nave_preprocessing.extract_brisque_features_nd(video_name,0)
+    vec_feats = nave_preprocessing.frame_pooling(features)
     # encode features
     encoded = model.predict(np.transpose(vec_feats.reshape((-1, 1))))
     return encoded
 
 def nave_encoder(video_name,h,w,model):
     # load video and extract features
-    features = extract_brisque_features(video_name,h,w,0)
-    vec_feats = frame_pooling(features)
+    features = nave_preprocessing.extract_brisque_features(video_name,h,w,0)
+    vec_feats = nave_preprocessing.frame_pooling(features)
     # encode features
     encoded = model.predict(np.transpose(vec_feats.reshape((-1, 1))))
     return encoded
