@@ -406,7 +406,7 @@ def measureNAVE(videoDist, h, w, distpath, vmaf_model):
     enc2_model = keras.models.load_model(models_path + 'enc2.h5')
 
     # mos prediction
-    predicted_mos = float(nave_predict(test_file, h,w,mapping_model, enc1_model, enc2_model)[0])
+    predicted_mos = float(AE_functions.nave_predict(test_file, h,w,mapping_model, enc1_model, enc2_model)[0])
 
     print(f"{'AvScore: '}{predicted_mos}")
     print('\n\n')
