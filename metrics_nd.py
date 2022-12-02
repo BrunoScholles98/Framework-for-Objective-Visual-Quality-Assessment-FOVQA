@@ -383,7 +383,7 @@ def measureNAVE(videoDist, formato, distpath, vmaf_model):
     print('Metric: NAVE')
     print(f"{'Distortion: '}{videoDist}")
 
-    models_path = '/NAVE/saved_models/'
+    models_path = os.getcwd() + '/NAVE/saved_models/'
     test_file = f"{distpath}{videoDist}{formato}"
 
     # load models
