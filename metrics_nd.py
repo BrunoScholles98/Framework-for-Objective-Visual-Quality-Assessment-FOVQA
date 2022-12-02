@@ -7,6 +7,9 @@ import cv2
 import matplotlib.image as mpimg
 import os
 from utils import tools
+from NAVE import nave_preprocessing
+from NAVE import AE_functions
+from tensorflow import keras
 
 def measureSSIM(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.'}{formato}"

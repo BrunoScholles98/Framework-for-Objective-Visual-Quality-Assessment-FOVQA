@@ -11,7 +11,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import LeakyReLU
 from tensorflow.keras.layers import BatchNormalization
 
-from nave_preprocessing import *
+from NAVE import nave_preprocessing
 
 from keras.regularizers import l2, l1
 #from keras.utils import np_utils
