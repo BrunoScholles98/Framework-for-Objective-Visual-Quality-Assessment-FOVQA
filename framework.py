@@ -83,14 +83,14 @@ def main():
                 if metrics_list[j] in refKeys or metrics_list[j] in refKeys_nd:
                     if pd.isna(df.loc[i, metrics_list[j]]):                       # Performs the calculation if the position in the csv is empty
                         if isyuv:
-                            df.loc[i, metrics_list[j]] = refKeys[metrics_list[j]](df['refFile'].iloc[i], df['testFile'].iloc[i],df['height'].iloc[i], df['weight'].iloc[i], refpath, distpath, vmaf_model)
+                            df.loc[i, metrics_list[j]] = refKeys[metrics_list[j]](df['refFile'].iloc[i], df['testFile'].iloc[i],df['height'].iloc[i], df['width'].iloc[i], refpath, distpath, vmaf_model)
                         else:
                             df.loc[i, metrics_list[j]] = refKeys_nd[metrics_list[j]](df['refFile'].iloc[i], df['testFile'].iloc[i],vid_format, refpath, distpath, vmaf_model)
                         df.to_csv(fileName, sep = ';', index = False)
                 elif metrics_list[j] in norefKeys or metrics_list[j] in norefKeys_nd:
                     if pd.isna(df.loc[i, metrics_list[j]]):                       # Performs the calculation if the position in the csv is empty
                         if isyuv:
-                            df.loc[i, metrics_list[j]] = norefKeys[metrics_list[j]](df['testFile'].iloc[i],df['height'].iloc[i], df['weight'].iloc[i], distpath, vmaf_model)
+                            df.loc[i, metrics_list[j]] = norefKeys[metrics_list[j]](df['testFile'].iloc[i],df['height'].iloc[i], df['width'].iloc[i], distpath, vmaf_model)
                         else:
                             df.loc[i, metrics_list[j]] = norefKeys_nd[metrics_list[j]](df['testFile'].iloc[i],vid_format, distpath, vmaf_model)
                         df.to_csv(fileName, sep = ';', index = False)
