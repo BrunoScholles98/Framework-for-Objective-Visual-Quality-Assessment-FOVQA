@@ -41,7 +41,7 @@ def main():
         error = True
     elif 'all' in metrics_list and len(metrics_list) == 1:
         metrics_list.remove('all')
-        metrics_list = ['ssim','msssim','psnr','mse','vmaf','rmse','snr','wsnr','uqi','pbvif','niqe']
+        metrics_list = ['ssim','msssim','psnr','mse','vmaf','rmse','snr','wsnr','uqi','pbvif','niqe','nave']
     
     if not error:
             
@@ -57,12 +57,12 @@ def main():
         refKeys = {'ssim': metrics.measureSSIM, 'msssim': metrics.measureMSSSIM, 'psnr': metrics.measurePSNR,                                          #
         'mse': metrics.measureMSE, 'vmaf': metrics.measureVMAF, 'rmse': metrics.measureRMSE, 'snr': metrics.measureSNR,                                #
         'wsnr': metrics.measureWSNR, 'uqi': metrics.measureUQI, 'pbvif': metrics.measurePBVIF}                                                         #
-        norefKeys = {'niqe': metrics.measureNIQE}                                                                                                      #
+        norefKeys = {'niqe': metrics.measureNIQE, 'nave': metrics.measureNAVE}                                                                                                      #
                                                                                                                                                        #
         refKeys_nd = {'ssim': metrics_nd.measureSSIM, 'msssim': metrics_nd.measureMSSSIM, 'psnr': metrics_nd.measurePSNR,                              #
         'mse': metrics_nd.measureMSE, 'vmaf': metrics_nd.measureVMAF, 'rmse': metrics_nd.measureRMSE, 'snr': metrics_nd.measureSNR,                    #
         'wsnr': metrics_nd.measureWSNR, 'uqi': metrics_nd.measureUQI, 'pbvif': metrics_nd.measurePBVIF}                                                #
-        norefKeys_nd = {'niqe': metrics_nd.measureNIQE}                                                                                                #
+        norefKeys_nd = {'niqe': metrics_nd.measureNIQE, 'nave': metrics_nd.measureNAVE}                                                                                                #
         
         for i in metrics_list:                                                   # If the metric column is missing, create it
             if i not in df.keys():

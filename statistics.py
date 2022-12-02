@@ -90,7 +90,7 @@ elif 'all' in metrics_list and len(metrics_list) > 1:
     error = True
 elif 'all' in metrics_list and len(metrics_list) == 1:
     metrics_list.remove('all')
-    metrics_list = ['ssim','msssim','psnr','mse','vmaf','rmse','snr','wsnr','uqi','pbvif','niqe']
+    metrics_list = ['ssim','msssim','psnr','mse','vmaf','rmse','snr','wsnr','uqi','pbvif','niqe','nave']
 
 if not error:
 

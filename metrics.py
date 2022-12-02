@@ -7,6 +7,9 @@ import cv2
 import matplotlib.image as mpimg
 import os
 from utils import tools
+from NAVE import AE_functions
+from NAVE import nave_preprocessing
+from tensorflow import keras
 
 def measureSSIM(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.yuv'}"
@@ -388,4 +391,23 @@ def measurePBVIF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'PBVIF Score: '}{score}")
     print('\n\n')
     
-    return score 
+    return score
+
+def measureNAVE(videoDist, h, w, distpath, vmaf_model):
+    print('Metric: NAVE')
+    print(f"{'Distortion: '}{videoDist}")
+
+    models_path = 'saved_models/'
+    test_file = f"{distpath}{videoDist}{'.yuv'}"
+
+    # load models
+    mapping_model = keras.models.load_model(models_path + 'mapping.h5')
+    enc1_model = keras.models.load_model(models_path + 'enc1.h5')
+    enc2_model = keras.models.load_model(models_path + 'enc2.h5')
+
+    # mos prediction
+    predicted_mos = float(nave_predict(test_file, h,w,mapping_model, enc1_model, enc2_model)[0])
+
+    print(f"{'AvScore: '}{predicted_mos}")
+    print('\n\n')
+    return predicted_mos

@@ -375,3 +375,22 @@ def measurePBVIF(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     print('\n\n')
     
     return score
+
+def measureNAVE(videoDist, formato, distpath, vmaf_model):
+    print('Metric: NAVE')
+    print(f"{'Distortion: '}{videoDist}")
+
+    models_path = 'saved_models/'
+    test_file = f"{distpath}{videoDist}{formato}"
+
+    # load models
+    mapping_model = keras.models.load_model(models_path + 'mapping.h5')
+    enc1_model = keras.models.load_model(models_path + 'enc1.h5')
+    enc2_model = keras.models.load_model(models_path + 'enc2.h5')
+
+    # mos prediction
+    predicted_mos = float(nave_predict_nd(test_file, mapping_model, enc1_model, enc2_model)[0])
+
+    print(f"{'AvScore: '}{predicted_mos}")
+    print('\n\n')
+    return predicted_mos
