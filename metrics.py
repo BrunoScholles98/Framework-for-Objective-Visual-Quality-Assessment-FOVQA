@@ -115,6 +115,8 @@ def measureVMAF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     command3 = ' -lavfi libvmaf="model_path=' + vmaf_model + '" -f null -'
     command = f"{command1}{distVideo}{'.yuv'}{command2}{refVideo}{'.yuv'}{command3}"
 
+    print(command)
+
     print('Metric: VMAF')
     print(f"{'Reference: '}{videoRef}")
     print(f"{'Distortion: '}{videoDist}")
