@@ -96,7 +96,7 @@ def cleanFrameFolder():
 def convertionToAVI(video, h, w, path):
     comando1 = f"{'ffmpeg -y -f rawvideo -vcodec rawvideo -s '}{w}{'x'}{h}{' -pix_fmt yuv420p -i '}{path}"
     file = video
-    comando2 = ' -c:v libx264 -preset ultrafast -qp 0 /home/brunoscholles/Framework/AudioVisualMeter/videosAVI/'
+    comando2 = ' -c:v libx264 -preset ultrafast -qp 0 /home/linuxbrew/Framework-for-Objective-Visual-Quality-Assessment-FOVQA/videosAVI/'
     comando = f"{comando1}{file}{'.yuv'}{comando2}{file}{'.avi'}"    
     
     run = sp.getoutput(comando)  
