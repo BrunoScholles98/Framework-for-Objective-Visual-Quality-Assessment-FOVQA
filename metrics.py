@@ -11,7 +11,6 @@ from NAVE import AE_functions
 from NAVE import nave_preprocessing
 from tensorflow import keras
 
-
 def measureSSIM(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.yuv'}"
     dist = f"{distpath}{videoDist}{'.yuv'}"
@@ -131,9 +130,9 @@ def measureVMAF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
 
 #------------------------------------------------------------------------------------------------
 
-def measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metric_func):
+def measureRMSE(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
 
-    print(f"{'Metric: '}{metric_func.__name__.upper()}")
+    print('Metric: RMSE')
     print(f"{'Reference: '}{videoRef}")
     print(f"{'Distortion: '}{videoDist}")
     
@@ -165,7 +164,7 @@ def measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metr
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metric_func(refFrameMeasure, distFrameMeasure) 
+        value = metrikz.rmse(refFrameMeasure,distFrameMeasure) 
         metricResults.append(value)    
         countRef += 1
         countDist += 1
@@ -174,16 +173,60 @@ def measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metr
     tools.cleanFrameFolder()
 
     score = np.mean(metricResults)
-    print(f"{metric_func.__name__.upper()} Score: {score}")
+    print(f"{'RMSE Score: '}{score}")
     print('\n\n')
     
     return score
 
-def measureRMSE(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
-    return measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metrikz.rmse)
+#------------------------------------------------------------------------------------------------
 
 def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
-    return measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metrikz.snr)
+
+    print('Metric: SNR')
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
+    
+    metricResults = []
+    path = './frames'
+
+    tools.convertionToAVI(videoRef, h, w, refpath)
+    tools.convertionToAVI(videoDist, h, w, distpath)
+
+    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+
+    ref = cv2.VideoCapture(stringPathRef)
+    dist = cv2.VideoCapture(stringPathDist)
+
+    successRef,framesRef = ref.read()
+    successDist,framesDist = dist.read()
+
+    countRef = 0
+    countDist = 0
+    i = 0
+
+    while successRef & successDist: 
+        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
+        successRef,framesRef = ref.read()
+        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
+        successDist,framesDist = dist.read()
+        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
+        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
+        refFrameMeasure = mpimg.imread(pathFrameRef)
+        distFrameMeasure = mpimg.imread(pathDistRef)
+        value = metrikz.snr(refFrameMeasure,distFrameMeasure) 
+        metricResults.append(value)    
+        countRef += 1
+        countDist += 1
+        i += 1
+
+    tools.cleanFrameFolder()
+
+    score = np.mean(metricResults)
+    print(f"{'SNR Score: '}{score}")
+    print('\n\n')
+    
+    return score
     
 #------------------------------------------------------------------------------------------------
 

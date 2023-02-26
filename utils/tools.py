@@ -99,4 +99,4 @@ def convertionToAVI(video, h, w, path):
     comando2 = ' -c:v libx264 -preset ultrafast -qp 0 /home/brunoscholles/Framework/AudioVisualMeter/videosAVI/'
     comando = f"{comando1}{file}{'.yuv'}{comando2}{file}{'.avi'}"    
     
-    run = sp.getoutput(comando)
+    run = sp.getoutput(comando)  
