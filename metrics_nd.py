@@ -11,86 +11,42 @@ from NAVE import nave_preprocessing
 from NAVE import AE_functions
 from tensorflow import keras
 
-def measureSSIM(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
+#-----------------------------------------------------------------------------------------------------------
+#-----------------------------------------Skvideo Full Reference--------------------------------------------
+#-----------------------------------------------------------------------------------------------------------
+def measureSkvideoMetric(metric_func, metric_name, videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.'}{formato}"
     dist = f"{distpath}{videoDist}{'.'}{formato}"
 
-    print('Metric: SSIM')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
+    print(f"Metric: {metric_name}")
+    print(f"Reference: {videoRef}")
+    print(f"Distortion: {videoDist}")
+
     ref = skvideo.io.vread(reference, as_grey=True)
-    dis = skvideo.io.vread(dist, as_grey=True)    
-    
-    scores = skvideo.measure.ssim(ref, dis)    
+    dis = skvideo.io.vread(dist, as_grey=True)
+
+    scores = metric_func(ref, dis)
     avg_score = np.mean(scores)
 
-    print(f"{'AvScore: '}{avg_score}")
+    print(f"AvScore: {avg_score}")
     print('\n\n')
     return avg_score
 
-#------------------------------------------------------------------------------------------------
+def measureSSIM(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
+    return measureSkvideoMetric(skvideo.measure.ssim, 'SSIM', videoRef, videoDist, formato, refpath, distpath, vmaf_model)
 
 def measureMSSSIM(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-    reference = f"{refpath}{videoRef}{'.'}{formato}"
-    dist = f"{distpath}{videoDist}{'.'}{formato}"
-
-    print('Metric: MSSSIM')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    ref = skvideo.io.vread(reference, as_grey=True)
-    dis = skvideo.io.vread(dist, as_grey=True)    
-    
-    scores = skvideo.measure.msssim(ref, dis)    
-    avg_score = np.mean(scores)
-
-    print(f"{'AvScore: '}{avg_score}")
-    print('\n\n')
-    return avg_score
-
-#------------------------------------------------------------------------------------------------
+    return measureSkvideoMetric(skvideo.measure.msssim, 'MSSSIM', videoRef, videoDist, formato, refpath, distpath, vmaf_model)
 
 def measureMSE(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-    reference = f"{refpath}{videoRef}{'.'}{formato}"
-    dist = f"{distpath}{videoDist}{'.'}{formato}"
-
-    print('Metric: MSE')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    ref = skvideo.io.vread(reference, as_grey=True)
-    dis = skvideo.io.vread(dist, as_grey=True)    
-    
-    scores = skvideo.measure.mse(ref, dis)    
-    avg_score = np.mean(scores)
-
-    print(f"{'AvScore: '}{avg_score}")
-    print('\n\n')
-    return avg_score
-
-#------------------------------------------------------------------------------------------------
+    return measureSkvideoMetric(skvideo.measure.mse, 'MSE', videoRef, videoDist, formato, refpath, distpath, vmaf_model)
 
 def measurePSNR(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-    reference = f"{refpath}{videoRef}{'.'}{formato}"
-    dist = f"{distpath}{videoDist}{'.'}{formato}"
+    return measureSkvideoMetric(skvideo.measure.psnr, 'PSNR', videoRef, videoDist, formato, refpath, distpath, vmaf_model)
 
-    print('Metric: PSNR')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    ref = skvideo.io.vread(reference, as_grey=True)
-    dis = skvideo.io.vread(dist, as_grey=True)    
-    
-    scores = skvideo.measure.psnr(ref, dis)    
-    avg_score = np.mean(scores)
-
-    print(f"{'AvScore: '}{avg_score}")
-    print('\n\n')
-    return avg_score
-
-#------------------------------------------------------------------------------------------------
-
+#---------------------------------------------------------------------------------------------------------
+#-----------------------------------------Skvideo No Reference--------------------------------------------
+#---------------------------------------------------------------------------------------------------------
 def measureNIQE(videoDist, formato, distpath, vmaf_model):   
     print('Metric: NIQE')
     print(f"{'Distortion: '}{videoDist}")
@@ -105,8 +61,9 @@ def measureNIQE(videoDist, formato, distpath, vmaf_model):
     print('\n\n')
     return avg_score
 
-#------------------------------------------------------------------------------------------------
-
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------VMAF--------------------------------------------
+#-----------------------------------------------------------------------------------------
 def measureVMAF(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     command1 = f"{'ffmpeg -i '}{distpath}"
     distVideo = videoDist
@@ -128,257 +85,72 @@ def measureVMAF(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
     print('\n\n')
     return score
 
-#------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------
+#--------------------------------------------PyMetrikz--------------------------------------------
+#-------------------------------------------------------------------------------------------------
+def measurePyMetrikz(videoRef, videoDist, formato, refpath, distpath, vmaf_model, metric_func):
+
+    print(f"{'Metric: '}{metric_func.__name__.upper()}")
+    print(f"{'Reference: '}{videoRef}")
+    print(f"{'Distortion: '}{videoDist}")
+    
+    metricResults = []
+    path = './frames'
+
+    stringPathRef = f"{refpath}{videoRef}{'.'}{formato}"
+    stringPathDist = f"{distpath}{videoDist}{'.'}{formato}"
+
+    ref = cv2.VideoCapture(stringPathRef)
+    dist = cv2.VideoCapture(stringPathDist)
+
+    successRef,framesRef = ref.read()
+    successDist,framesDist = dist.read()
+
+    countRef = 0
+    countDist = 0
+    i = 0
+
+    while successRef & successDist: 
+        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
+        successRef,framesRef = ref.read()
+        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
+        successDist,framesDist = dist.read()
+        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
+        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
+        refFrameMeasure = mpimg.imread(pathFrameRef)
+        distFrameMeasure = mpimg.imread(pathDistRef)
+        value = metric_func(refFrameMeasure, distFrameMeasure) 
+        metricResults.append(value)    
+        countRef += 1
+        countDist += 1
+        i += 1
+
+    tools.cleanFrameFolder()
+
+    score = np.mean(metricResults)
+    print(f"{metric_func.__name__.upper()} Score: {score}")
+    print('\n\n')
+    
+    return score
 
 def measureRMSE(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-
-    print('Metric: RMSE')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    metricResults = []
-    path = './frames'                                                            
-
-    nomeRef = videoRef
-    nomeDist = videoDist
-
-    stringPathRef = f"{refpath}{nomeRef}{'.'}{formato}"
-    stringPathDist = f"{distpath}{nomeDist}{'.'}{formato}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef,framesRef = ref.read()
-    successDist,framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.rmse(refFrameMeasure,distFrameMeasure) 
-        metricResults.append(value)    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    score = np.mean(metricResults)
-    print(f"{'RMSE Score: '}{score}")
-    print('\n\n')
-    
-    return score
-
-#------------------------------------------------------------------------------------------------
+    return measurePyMetrikz(videoRef, videoDist, formato, refpath, distpath, vmaf_model, metrikz.rmse)
 
 def measureSNR(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-
-    print('Metric: SNR')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    metricResults = []
-    path = './frames'                                                            
-
-    nomeRef = videoRef
-    nomeDist = videoDist
-
-    stringPathRef = f"{refpath}{nomeRef}{'.'}{formato}"
-    stringPathDist = f"{distpath}{nomeDist}{'.'}{formato}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef,framesRef = ref.read()
-    successDist,framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.snr(refFrameMeasure,distFrameMeasure) 
-        metricResults.append(value)    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    score = np.mean(metricResults)
-    print(f"{'SNR Score: '}{score}")
-    print('\n\n')
-    
-    return score
-    
-#------------------------------------------------------------------------------------------------
+    return measurePyMetrikz(videoRef, videoDist, formato, refpath, distpath, vmaf_model, metrikz.snr)
 
 def measureWSNR(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-
-    print('Metric: WSNR')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    metricResults = []
-    path = './frames'                                                            
-
-    nomeRef = videoRef
-    nomeDist = videoDist
-
-    stringPathRef = f"{refpath}{nomeRef}{'.'}{formato}"
-    stringPathDist = f"{distpath}{nomeDist}{'.'}{formato}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef,framesRef = ref.read()
-    successDist,framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.wsnr(refFrameMeasure,distFrameMeasure) 
-        metricResults.append(value)    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    score = np.mean(metricResults)
-    print(f"{'WSNR Score: '}{score}")
-    print('\n\n')
-    
-    return score
-
-#------------------------------------------------------------------------------------------------
+    return measurePyMetrikz(videoRef, videoDist, formato, refpath, distpath, vmaf_model, metrikz.wsnr)
 
 def measureUQI(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
-
-    print('Metric: UQI')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    metricResults = []
-    path = './frames'                                                            
-
-    nomeRef = videoRef
-    nomeDist = videoDist
-
-
-    stringPathRef = f"{refpath}{nomeRef}{'.'}{formato}"
-    stringPathDist = f"{distpath}{nomeDist}{'.'}{formato}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef,framesRef = ref.read()
-    successDist,framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.uqi(refFrameMeasure,distFrameMeasure) 
-        metricResults.append(value)    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    score = np.mean(metricResults)
-    print(f"{'UQI Score: '}{score}")
-    print('\n\n')
-    
-    return score
-    
-#------------------------------------------------------------------------------------------------
+    return measurePyMetrikz(videoRef, videoDist, formato, refpath, distpath, vmaf_model, metrikz.uqi)
 
 def measurePBVIF(videoRef, videoDist, formato, refpath, distpath, vmaf_model):
+    return measurePyMetrikz(videoRef, videoDist, formato, refpath, distpath, vmaf_model, metrikz.pbvif)
 
-    print('Metric: PBVIF')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    metricResults = []
-    path = './frames'                                                            
-
-    nomeRef = videoRef
-    nomeDist = videoDist
-
-    stringPathRef = f"{refpath}{nomeRef}{'.'}{formato}"
-    stringPathDist = f"{distpath}{nomeDist}{'.'}{formato}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef,framesRef = ref.read()
-    successDist,framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.pbvif(refFrameMeasure,distFrameMeasure) 
-        metricResults.append(value)    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    score = np.mean(metricResults)
-    print(f"{'PBVIF Score: '}{score}")
-    print('\n\n')
-    
-    return score
-
+#-----------------------------------------------------------------------------------------
+#-----------------------------------------NAVE--------------------------------------------
+#-----------------------------------------------------------------------------------------
 def measureNAVE(videoDist, formato, distpath, vmaf_model):
     print('Metric: NAVE')
     print(f"{'Distortion: '}{videoDist}")
