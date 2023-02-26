@@ -11,43 +11,6 @@ from NAVE import AE_functions
 from NAVE import nave_preprocessing
 from tensorflow import keras
 
-def processFramesYUV(videoRef, videoDist, h, w, refpath, distpath):
-    metricResults = []
-    path = './frames'
-
-    tools.convertionToAVI(videoRef, h, w, refpath)
-    tools.convertionToAVI(videoDist, h, w, distpath)
-
-    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef, framesRef = ref.read()
-    successDist, framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        metricResults.append((refFrameMeasure, distFrameMeasure))    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    return metricResults
 
 def measureSSIM(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.yuv'}"
@@ -168,25 +131,9 @@ def measureVMAF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
 
 #------------------------------------------------------------------------------------------------
 
-def measureRMSE(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
+def measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metric_func):
 
-    print('Metric: RMSE')
-    print(f"{'Reference: '}{videoRef}")
-    print(f"{'Distortion: '}{videoDist}")
-    
-    metricResults = processFramesYUV(videoRef, videoDist, h, w, refpath, distpath)
-    score = np.mean([metrikz.rmse(ref, dist) for ref, dist in metricResults])
-    
-    print(f"{'RMSE Score: '}{score}")
-    print('\n\n')
-    
-    return score
-
-#------------------------------------------------------------------------------------------------
-
-def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
-
-    print('Metric: SNR')
+    print(f"{'Metric: '}{metric_func.__name__.upper()}")
     print(f"{'Reference: '}{videoRef}")
     print(f"{'Distortion: '}{videoDist}")
     
@@ -218,7 +165,7 @@ def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
         pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
         refFrameMeasure = mpimg.imread(pathFrameRef)
         distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.snr(refFrameMeasure,distFrameMeasure) 
+        value = metric_func(refFrameMeasure, distFrameMeasure) 
         metricResults.append(value)    
         countRef += 1
         countDist += 1
@@ -227,10 +174,16 @@ def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     tools.cleanFrameFolder()
 
     score = np.mean(metricResults)
-    print(f"{'SNR Score: '}{score}")
+    print(f"{metric_func.__name__.upper()} Score: {score}")
     print('\n\n')
     
     return score
+
+def measureRMSE(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
+    return measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metrikz.rmse)
+
+def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
+    return measureMetric(videoRef, videoDist, h, w, refpath, distpath, vmaf_model, metrikz.snr)
     
 #------------------------------------------------------------------------------------------------
 
