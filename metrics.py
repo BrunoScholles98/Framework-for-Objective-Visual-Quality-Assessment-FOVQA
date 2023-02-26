@@ -109,9 +109,11 @@ def measureNIQE(videoDist, h, w, distpath, vmaf_model):
 
 def measureVMAF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     command1 = f"{'ffmpeg -video_size '}{w}{'x'}{h}{' -i '}{distpath}"
+    distVideo = videoDist
     command2 = f"{' -video_size '}{w}{'x'}{h}{' -i '}{refpath}"
+    refVideo = videoRef
     command3 = ' -lavfi libvmaf="model_path=' + vmaf_model + '" -f null -'
-    command = f"{command1}{videoDist}{'.yuv'}{command2}{videoRef}{'.yuv'}{command3}"
+    command = f"{command1}{distVideo}{'.yuv'}{command2}{refVideo}{'.yuv'}{command3}"
 
     print(command)
 
@@ -137,13 +139,16 @@ def measureRMSE(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'
+    path = './frames'                                                            
+
+    nameRef = videoRef
+    nameDist = videoDist
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -187,13 +192,16 @@ def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'
+    path = './frames'                                                            
+
+    nameRef = videoRef
+    nameDist = videoDist
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -237,13 +245,16 @@ def measureWSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'
+    path = './frames'                                                            
+
+    nameRef = videoRef
+    nameDist = videoDist
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -287,13 +298,16 @@ def measureUQI(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'
+    path = './frames'                                                            
+
+    nameRef = videoRef
+    nameDist = videoDist
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -337,13 +351,16 @@ def measurePBVIF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'
-    
+    path = './frames'                                                            
+
+    nameRef = videoRef
+    nameDist = videoDist
+
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
