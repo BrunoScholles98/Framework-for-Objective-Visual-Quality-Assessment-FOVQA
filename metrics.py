@@ -11,6 +11,44 @@ from NAVE import AE_functions
 from NAVE import nave_preprocessing
 from tensorflow import keras
 
+def processFramesYUV(videoRef, videoDist, h, w, refpath, distpath):
+    metricResults = []
+    path = './frames'
+
+    tools.convertionToAVI(videoRef, h, w, refpath)
+    tools.convertionToAVI(videoDist, h, w, distpath)
+
+    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
+
+    ref = cv2.VideoCapture(stringPathRef)
+    dist = cv2.VideoCapture(stringPathDist)
+
+    successRef, framesRef = ref.read()
+    successDist, framesDist = dist.read()
+
+    countRef = 0
+    countDist = 0
+    i = 0
+
+    while successRef & successDist: 
+        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
+        successRef,framesRef = ref.read()
+        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
+        successDist,framesDist = dist.read()
+        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
+        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
+        refFrameMeasure = mpimg.imread(pathFrameRef)
+        distFrameMeasure = mpimg.imread(pathDistRef)
+        metricResults.append((refFrameMeasure, distFrameMeasure))    
+        countRef += 1
+        countDist += 1
+        i += 1
+
+    tools.cleanFrameFolder()
+
+    return metricResults
+
 def measureSSIM(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     reference = f"{refpath}{videoRef}{'.yuv'}"
     dist = f"{distpath}{videoDist}{'.yuv'}"
@@ -109,11 +147,9 @@ def measureNIQE(videoDist, h, w, distpath, vmaf_model):
 
 def measureVMAF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     command1 = f"{'ffmpeg -video_size '}{w}{'x'}{h}{' -i '}{distpath}"
-    distVideo = videoDist
     command2 = f"{' -video_size '}{w}{'x'}{h}{' -i '}{refpath}"
-    refVideo = videoRef
     command3 = ' -lavfi libvmaf="model_path=' + vmaf_model + '" -f null -'
-    command = f"{command1}{distVideo}{'.yuv'}{command2}{refVideo}{'.yuv'}{command3}"
+    command = f"{command1}{videoDist}{'.yuv'}{command2}{videoRef}{'.yuv'}{command3}"
 
     print(command)
 
@@ -138,46 +174,9 @@ def measureRMSE(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Reference: '}{videoRef}")
     print(f"{'Distortion: '}{videoDist}")
     
-    metricResults = []
-    path = './frames'                                                            
-
-    nameRef = videoRef
-    nameDist = videoDist
-
-    tools.convertionToAVI(videoRef, h, w, refpath)
-    tools.convertionToAVI(videoDist, h, w, distpath)
-
-    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
-
-    ref = cv2.VideoCapture(stringPathRef)
-    dist = cv2.VideoCapture(stringPathDist)
-
-    successRef,framesRef = ref.read()
-    successDist,framesDist = dist.read()
-
-    countRef = 0
-    countDist = 0
-    i = 0
-
-    while successRef & successDist: 
-        cv2.imwrite(os.path.join(path ,'frameRef%d.png') % countRef, framesRef)    
-        successRef,framesRef = ref.read()
-        cv2.imwrite(os.path.join(path ,'frameDist%d.png') % countDist, framesDist)      
-        successDist,framesDist = dist.read()
-        pathFrameRef = f"{'./frames/frameRef'}{i}{'.png'}"
-        pathDistRef = f"{'./frames/frameDist'}{i}{'.png'}"
-        refFrameMeasure = mpimg.imread(pathFrameRef)
-        distFrameMeasure = mpimg.imread(pathDistRef)
-        value = metrikz.rmse(refFrameMeasure,distFrameMeasure) 
-        metricResults.append(value)    
-        countRef += 1
-        countDist += 1
-        i += 1
-
-    tools.cleanFrameFolder()
-
-    score = np.mean(metricResults)
+    metricResults = processFramesYUV(videoRef, videoDist, h, w, refpath, distpath)
+    score = np.mean([metrikz.rmse(ref, dist) for ref, dist in metricResults])
+    
     print(f"{'RMSE Score: '}{score}")
     print('\n\n')
     
@@ -192,16 +191,13 @@ def measureSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'                                                            
-
-    nameRef = videoRef
-    nameDist = videoDist
+    path = './frames'
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -245,16 +241,13 @@ def measureWSNR(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'                                                            
-
-    nameRef = videoRef
-    nameDist = videoDist
+    path = './frames'
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -298,16 +291,13 @@ def measureUQI(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'                                                            
-
-    nameRef = videoRef
-    nameDist = videoDist
+    path = './frames'
 
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
@@ -351,16 +341,13 @@ def measurePBVIF(videoRef, videoDist, h, w, refpath, distpath, vmaf_model):
     print(f"{'Distortion: '}{videoDist}")
     
     metricResults = []
-    path = './frames'                                                            
-
-    nameRef = videoRef
-    nameDist = videoDist
-
+    path = './frames'
+    
     tools.convertionToAVI(videoRef, h, w, refpath)
     tools.convertionToAVI(videoDist, h, w, distpath)
 
-    stringPathRef = f"{'./videosAVI/'}{nameRef}{'.avi'}"
-    stringPathDist = f"{'./videosAVI/'}{nameDist}{'.avi'}"
+    stringPathRef = f"{'./videosAVI/'}{videoRef}{'.avi'}"
+    stringPathDist = f"{'./videosAVI/'}{videoDist}{'.avi'}"
 
     ref = cv2.VideoCapture(stringPathRef)
     dist = cv2.VideoCapture(stringPathDist)
