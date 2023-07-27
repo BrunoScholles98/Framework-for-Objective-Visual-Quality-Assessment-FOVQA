@@ -127,7 +127,7 @@ You can use the **statistics.py** code to calculate the correlations of each met
 
 At the end, in the "frameworkXMos" folder you will get a set of scatter plots like the one shown below, and in the "statistics" folder a CSV table will be generated with all the calculated values.
 
-![](https://i.postimg.cc/qRP266Kd/vmaf.png)
+![](https://postimg.cc/zbky9Bpd)
 
 ||pearson|spearman|kendall|RMSE|
 | :------------: | :------------: | :------------: | :------------: | :------------: |
