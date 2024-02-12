@@ -145,7 +145,7 @@ At the end, in the "frameworkXMos" folder you will get a set of scatter plots li
 <a name="contact"></a>
 ## Contact
 
-Please send all comments, questions, reports and suggestions (especially if you would like to contribute) to brunoscholles98@gmail.com or  caio.saigg@gmail.com
+Please feel free to reach out with any comments, questions, reports, or suggestions via email at brunoscholles98@gmail.com or caio.saigg@gmail.com. Additionally, you can contact us via WhatsApp at +55 61 992598713.
 
 <a name="contrib"></a>
 ## Contributing
