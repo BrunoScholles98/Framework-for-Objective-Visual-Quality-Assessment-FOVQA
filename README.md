@@ -17,6 +17,11 @@ The framework is currently adapted to work with full-reference and no-reference 
 
 It can also be used to generate statistics of the results for metrics comparison purposes. 
 
+Reference of the scientific article:
+- Saigg, C. L., Dias, B. S. S., Costa, A. H. M., Farias, M. C. Q., & Martinez, H. B. (2022). A Python Framework for Objective Visual Quality Assessment. Conference on Graphics, Patterns and Images (SIBGRAPI), 35., 2022, Natal/RN. Porto Alegre: Sociedade Brasileira de Computação. pp. 105-109. DOI: https://doi.org/10.5753/sibgrapi.est.2022.23271.
+
+The full article is available at [link](https://doi.org/10.5753/sibgrapi.est.2022.23271).
+
 <a name="lic"></a>
 ## License
 
