@@ -53,7 +53,7 @@ To run the framework, you must first have the following tools installed:
 
 ### General Organization
 
-For the Framework to work correctly, we must follow a few rules. The first is the video path: there is no problem if the distortion and reference videos are in the same folders or in separate folders. However, all reference videos together in the same folder, just as the distortion videos must be in the same folder as well.
+For the Framework to work correctly, we must follow a few rules. The first one is the video path: there is no problem if the distortion and reference videos are in the same folders or in separate folders. However, all reference videos together in the same folder, just as the distortion videos must be in the same folder as well.
 
 The second rule is that the Framework needs to read the name of all the videos, among other characteristics. Therefore, **you must create a CSV table from the Dataset containing**:
 
