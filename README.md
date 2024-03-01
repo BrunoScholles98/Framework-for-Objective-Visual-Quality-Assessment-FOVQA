@@ -1,12 +1,11 @@
 ## Contents
 
 1. [Description](#desc)
-2. [License](#lic)
-3. [Requirements](#req)
-4. [Instructions](#inst)
-6. [Contact](#contact)
-7. [References](#refs)
-8. [Thanks](#thanks)
+2. [Requirements](#req)
+3. [Instructions](#inst)
+4. [Contact](#contact)
+5. [References](#refs)
+6. [Thanks](#thanks)
 
 <a name="desc"></a>
 # Framework for Objective Visual Quality Assessment - FOVQA
@@ -21,11 +20,6 @@ Reference of the scientific article:
 - Saigg, C. L., Dias, B. S. S., Costa, A. H. M., Farias, M. C. Q., & Martinez, H. B. (2022). A Python Framework for Objective Visual Quality Assessment. Conference on Graphics, Patterns and Images (SIBGRAPI), 35., 2022, Natal/RN. Porto Alegre: Sociedade Brasileira de Computação. pp. 105-109. DOI: https://doi.org/10.5753/sibgrapi.est.2022.23271.
 
 The full article is available at [link](https://doi.org/10.5753/sibgrapi.est.2022.23271).
-
-<a name="lic"></a>
-## License
-
-Still to be defined...
 
 <a name="req"></a>
 ## Requirements
